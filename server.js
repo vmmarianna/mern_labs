@@ -8,9 +8,15 @@ const uri = "mongodb+srv://marina:marina@cluster0.iczim.mongodb.net/<dbname>?ret
 const dbName = 'Test'; // можете исправить на другое имя, если хотите
 
 // Некоторые настройки безопасности
+//app.use(function(req, res, next) {
+//      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//      next();
+//});
+
 app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 // Для отправки post-запросов и чтения get-запросов

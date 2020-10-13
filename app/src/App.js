@@ -1,6 +1,8 @@
-//import React from 'react';
-//import logo from './logo.svg';
 import './App.css';
+import {Table, Card, Button} from 'antd'
+import "antd/dist/antd.css";
+import {sendNote, getAllNotes} from './api/api';
+
 
 
 import React, { Component } from 'react';
@@ -27,7 +29,31 @@ class App extends Component {
       console.log('close');
     };
     setInterval(this.tick, 1000);
+    this.handleSendNote(); // следующие строки добавляем
+    this.getAll();
   }
+
+
+handleSendNote = () => {
+sendNote()
+.then(res => {
+console.log(res)
+      })
+.catch(err => console.log(err));
+  }
+
+getAll = () => {
+getAllNotes()
+.then(res => {
+        console.log(res.data)
+this.setState({
+          data: res.data
+        })
+      })
+.catch(err => console.log(err));
+}
+
+  
 
   //функция получает данные...
   onMessage = (e) => {
@@ -46,36 +72,35 @@ class App extends Component {
   }
   
   render() {
-    console.log(this.state)
+    const columns = [
+      {
+        title: '_id',
+dataIndex: '_id',
+        key: '_id',
+      },
+      {
+        title: 'text',
+dataIndex: 'text',
+        key: 'text',
+      },
+      {
+        title: 'title',
+dataIndex: 'title',
+        key: 'title',
+      }
+    ];
     return (
-	<div>
-          <h1>Время: {this.state.time}</h1>, 
-          <h1>Серверное время: {this.state.serverTime}</h1>
-	</div>
+<Card 
+        title={'Hello, world!'}
+        actions={[
+<h1>Время: {this.state.time}</h1>, 
+<h1>Серверноевремя: {this.state.serverTime}</h1>
+        ]}
+>
+<Table columns={columns} dataSource={this.state.data} />
+<Button>Добавить запись</Button>
+</Card>
     );
   }
-} 
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
+}
 export default App;
